@@ -1,0 +1,12 @@
+output_root: results/offline
+planning:
+  max_iterations: 200000
+  timeout_s: 900
+objects:
+  simball:
+    family: ball
+    runtime: sim
+    phases: [catch, move]
+    sim_scenes:
+      catch: src/real_world_experiment/cm_trajectory_generation/config/ball/catch_template.yaml
+      move: src/real_world_experiment/cm_trajectory_generation/config/ball/move_template.yaml

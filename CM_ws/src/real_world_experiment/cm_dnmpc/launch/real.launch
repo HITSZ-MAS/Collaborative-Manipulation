@@ -1,0 +1,28 @@
+<launch>
+  <arg name="object" default="ball"/>
+  <arg name="side" default="left"/>
+  <arg name="phase" default="all"/>
+  <arg name="peer_host" default="$(eval '192.168.1.80' if arg('side') == 'right' else '192.168.2.90')"/>
+  <arg name="bind_host" default="$(eval '192.168.2.90' if arg('side') == 'right' else '192.168.1.80')"/>
+  <arg name="receive_port" default="$(eval '55006' if arg('side') == 'right' else '55005')"/>
+  <arg name="send_port" default="$(eval '55005' if arg('side') == 'right' else '55006')"/>
+  <arg name="catch_reference"/>
+  <arg name="move_reference"/>
+  <arg name="command_enabled" default="false"/>
+  <arg name="target_acceleration_topic" default="/target/acceleration"/>
+  <arg name="target_acceleration_frame" default=""/>
+  <arg name="target_acceleration_timeout" default="0.2"/>
+
+  <node pkg="cm_dnmpc" type="real_controller.py"
+        name="real_controller" output="screen"
+        args="--side $(arg side) --object $(arg object) --phase $(arg phase)
+              --peer-host $(arg peer_host) --bind-host $(arg bind_host)
+              --receive-port $(arg receive_port) --send-port $(arg send_port)
+              --catch-reference $(arg catch_reference)
+              --move-reference $(arg move_reference)">
+    <param name="command_enabled" value="$(arg command_enabled)"/>
+    <param name="target_acceleration_topic" value="$(arg target_acceleration_topic)"/>
+    <param name="target_acceleration_frame" value="$(arg target_acceleration_frame)"/>
+    <param name="target_acceleration_timeout" value="$(arg target_acceleration_timeout)"/>
+  </node>
+</launch>
